@@ -1,0 +1,57 @@
+{% include 'overall_header.html' %}
+{% INCLUDECSS '@david63_announceonindex/version.css' %}
+
+<h1>{{ lang('ANNOUNCE_ON_INDEX') }}</h1>
+<p>{{ lang('ANNOUNCE_ON_INDEX_EXPLAIN') }}</p>
+
+<form id="announceonindex" method="post" action="{U_ACTION}">
+
+	<fieldset>
+		<legend>{{ lang('ANNOUNCE_ON_INDEX_OPTIONS') }}</legend>
+
+		<dl>
+			<dt><label for="version">{{ lang('VERSION') }}{{ lang('COLON') }}</label><span class="version">{ANNOUNCE_ON_INDEX_VERSION}</span></dt>
+		</dl>
+
+		<dl>
+			<dt><label for="announce_on_index_enable">{{ lang('ANNOUNCE_ON_INDEX_ENABLE') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" name="announce_on_index_enable" value="1" id="announce_on_index_enable"{% if ANNOUNCE_ON_INDEX_ENABLED %} checked="checked"{% endif %}/> {{ lang('ENABLE') }}</label>
+				<label><input type="radio" class="radio" name="announce_on_index_enable" value="0" {% if not ANNOUNCE_ON_INDEX_ENABLED %} checked="checked"{% endif %} /> {{ lang('DISABLE') }}</label></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="announce_global_on_index">{{ lang('SHOW_GLOBALS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('SHOW_GLOBALS_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="announce_global_on_index" value="1" id="announce_global_on_index"{% if SHOW_GLOBALS %} checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="announce_global_on_index" value="0" {% if not SHOW_GLOBALS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="announce_announcement_on_index">{{ lang('SHOW_ANNOUNCEMENTS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('SHOW_ANNOUNCEMENTS_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="announce_announcement_on_index" value="1" id="announce_announcement_on_index"{% if SHOW_ANNOUNCEMENTS %} checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="announce_announcement_on_index" value="0" {% if not SHOW_ANNOUNCEMENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="announce_guest">{{ lang('ALLOW_GUESTS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ALLOW_GUESTS_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="announce_guest" value="1" id="announce_guest"{% if ALLOW_GUESTS %} checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="announce_guest" value="0" {% if not ALLOW_GUESTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="announce_event">{{ lang('ALLOW_EVENTS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ALLOW_EVENTS_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="announce_event" value="1" id="announce_event"{% if ALLOW_EVENTS %} checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="announce_event" value="0" {% if not ALLOW_EVENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		</p>
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}
