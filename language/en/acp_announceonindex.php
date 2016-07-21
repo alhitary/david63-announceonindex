@@ -50,4 +50,6 @@ $lang = array_merge($lang, array(
 	'SHOW_ANNOUNCEMENTS_EXPLAIN'	=> 'Display all announcements on the index page.',
 	'SHOW_GLOBALS'					=> 'Show global announcements',
 	'SHOW_GLOBALS_EXPLAIN'			=> 'Display all global announcements on the index page.',
+
+	'VERSION'						=> 'Version',
 ));
