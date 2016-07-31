@@ -37,14 +37,17 @@ class listener implements EventSubscriberInterface
 	/** @var string PHP extension */
 	protected $phpEx;
 
-	/** @var ContainerInterface */
-	protected $container;
+	/** @var \phpbb\content_visibility */
+	protected $content_visibility;
 
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
 	/** @var \phpbb\cache\service */
 	protected $cache;
+
+	/** @var \phpbb\path_helper */
+	protected $path_helper;
 
 	/** @var phpbb\language\language */
 	protected $language;
@@ -58,25 +61,27 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\db\driver\driver_interface	$db
 	* @param string 							$root_path
 	* @param string 							$php_ext
-	* @param ContainerInterface					$container	Service container interface
+	* @param \phpbb\content_visibility 			$content_visibility
 	* @param \phpbb\auth\auth 					$auth
 	* @param \phpbb\cache\service				$cache
+	* @param \phpbb\path_helper					$path_helper	phpBB path helper
 	* @param phpbb\language\language			$language
 	*
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $root_path, $php_ext, $phpbb_container, \phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\language\language $language)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $root_path, $php_ext, \phpbb\content_visibility $content_visibility, \phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\path_helper $path_helper, \phpbb\language\language $language)
 	{
-		$this->config			= $config;
-		$this->template			= $template;
-		$this->user				= $user;
-		$this->db				= $db;
-		$this->root_path		= $root_path;
-		$this->phpEx			= $php_ext;
-		$this->phpbb_container	= $phpbb_container;
-		$this->auth				= $auth;
-		$this->cache			= $cache;
-		$this->language			= $language;
+		$this->config				= $config;
+		$this->template				= $template;
+		$this->user					= $user;
+		$this->db					= $db;
+		$this->root_path			= $root_path;
+		$this->phpEx				= $php_ext;
+		$this->content_visibility	= $content_visibility;
+		$this->auth					= $auth;
+		$this->cache				= $cache;
+		$this->path_helper 			= $path_helper;
+		$this->language				= $language;
 	}
 
 	/**
@@ -90,16 +95,7 @@ class listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.index_modify_page_title'	=> 'add_announcements_to_index',
-			'core.page_header_after'		=> 'add_to_header',
 		);
-	}
-
-	public function add_to_header($event)
-	{
-		$this->template->assign_vars(array(
-				'S_ALLOW_GUESTS' 		=> ($this->config['announce_guest']) ? true : false,
-				'S_ANNOUNCE_ENABLED'	=> ($this->config['announce_on_index_enable']) ? true : false,
-		));
 	}
 
 	/**
@@ -111,8 +107,6 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->config['announce_on_index_enable'] && ($this->config['announce_global_on_index'] || $this->config['announce_announcement_on_index']))
 		{
-			$phpbb_content_visibility = $this->phpbb_container->get('content.visibility');
-
 			$sql_from	= TOPICS_TABLE . ' t ';
 			$sql_select	= '';
 
@@ -151,8 +145,8 @@ class listener implements EventSubscriberInterface
 
 			if ($g_forum_id)
 			{
-				$topic_list = $rowset = array();
-				$sql_where = POST_GLOBAL;
+				$topic_list	= $rowset = array();
+				$sql_where 	= POST_GLOBAL;
 
 				if ($this->config['announce_announcement_on_index'])
 				{
@@ -166,7 +160,7 @@ class listener implements EventSubscriberInterface
 
 				$sql = "SELECT t.* $sql_select
 					FROM $sql_from
-					WHERE t.topic_type =  $sql_where
+					WHERE t.topic_type = $sql_where
 					ORDER BY t.topic_last_post_time DESC";
 
 				$result = $this->db->sql_query($sql);
@@ -200,6 +194,7 @@ class listener implements EventSubscriberInterface
             		// Grab icons
             		$icons = $this->cache->obtain_icons();
 
+					$folder_img = $folder_alt = '';
 					$folder_img = ($unread_topic) ? 'announce_unread' : 'announce_read';
 					$folder_alt	= ($unread_topic) ? 'UNREAD_POSTS' : (($row['topic_status'] == ITEM_LOCKED) ? 'TOPIC_LOCKED' : 'NO_UNREAD_POSTS');
 
@@ -210,20 +205,17 @@ class listener implements EventSubscriberInterface
 
 					$this->template->assign_block_vars('topicrow', array(
 						'FIRST_POST_TIME'		=> $this->user->format_date($row['topic_time']),
+						'LAST_AUTHOR_AVATAR'	=> $this->get_last_poster_avatar($row['topic_last_poster_id']),
 						'LAST_POST_TIME'		=> $this->user->format_date($row['topic_last_post_time']),
-						'LAST_POST_AUTHOR'		=> get_username_string('username', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
-						'LAST_POST_AUTHOR_FULL'	=> get_username_string('full', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
-						'TOPIC_TITLE'			=> censor_text($row['topic_title']),
-
-	               		'REPLIES'				=> $phpbb_content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
-	            		'VIEWS'					=> $this->language->lang($row['topic_views']),
+						'REPLIES'				=> $this->content_visibility->get_count('topic_posts', $row, $forum_id) - 1,
 						'TOPIC_AUTHOR_FULL'		=> get_username_string('full', $row['topic_poster'], $row['topic_first_poster_name'], $row['topic_first_poster_colour']),
-		        		'TOPIC_LAST_AUTHOR'		=> get_username_string('full', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
-						'TOPIC_FOLDER_IMG'		=> $this->user->img($folder_img, $folder_alt),
-                		'TOPIC_ICON_IMG'		=> (!empty($icons[$row['icon_id']])) ? $icons[$row['icon_id']]['img'] : '',
+						'TOPIC_FOLDER_IMG_ALT'	=> $this->language->lang($folder_alt),
+						'TOPIC_ICON_IMG'		=> (!empty($icons[$row['icon_id']])) ? $icons[$row['icon_id']]['img'] : '',
 						'TOPIC_IMG_STYLE'		=> $folder_img,
+		        		'TOPIC_LAST_AUTHOR'		=> get_username_string('full', $row['topic_last_poster_id'], $row['topic_last_poster_name'], $row['topic_last_poster_colour']),
+						'TOPIC_TITLE'			=> censor_text($row['topic_title']),
+	            		'VIEWS'					=> $row['topic_views'],
 
-						'S_ALLOW_EVENTS'		=> ($this->config['announce_event']) ? true : false,
 						'S_UNREAD'				=> $unread_topic,
 
 						'U_LAST_POST'			=> append_sid("{$this->root_path}viewtopic.$this->phpEx", "f=$g_forum_id&amp;t=$topic_id&amp;p=" . $row['topic_last_post_id']) . '#p' . $row['topic_last_post_id'],
@@ -232,6 +224,56 @@ class listener implements EventSubscriberInterface
 					));
 				}
 			}
+
+			$this->template->assign_vars(array(
+				'S_ALLOW_EVENTS'		=> $this->config['announce_event'],
+				'S_ALLOW_GUESTS' 		=> $this->config['announce_guest'],
+				'S_ANNOUNCE_ENABLED'	=> $this->config['announce_on_index_enable'],
+				'S_SHOW_LAST_AVATAR'	=> $this->config['announce_avatar'],
+			));
+		}
+	}
+
+	// Get the last poster's avatar and resize it if necessary
+	private function get_last_poster_avatar($user_id)
+	{
+		// No point doing this if it is not required
+		if ($this->config['announce_avatar'])
+		{
+			// Just grab the fields that we need here
+			$sql = 'SELECT user_avatar, user_avatar_height, user_avatar_width, user_avatar_type
+				FROM ' . USERS_TABLE . "
+				WHERE user_id = $user_id";
+
+			$result = $this->db->sql_query($sql);
+
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
+
+			// Resize the avatar if necessary
+			if ($row['user_avatar_width'] >= $row['user_avatar_height'])
+			{
+				$avatar_width = ($row['user_avatar_width'] > $this->config['announce_avatar_size']) ? $this->config['announce_avatar_size'] : $row['user_avatar_width'];
+				$row['user_avatar_height'] = ($avatar_width == $this->config['announce_avatar_size']) ? round($this->config['announce_avatar_size'] / $row['user_avatar_width'] * $row['user_avatar_height']) : $row['user_avatar_height'];
+				$row['user_avatar_width'] = $avatar_width;
+			}
+			else
+			{
+				$avatar_height = ($row['user_avatar_height'] > $this->config['announce_avatar_size']) ? $this->config['announce_avatar_size'] : $row['user_avatar_height'];
+				$row['user_avatar_width'] = ($avatar_height == $this->config['announce_avatar_size']) ? round($this->config['announce_avatar_size'] / $row['user_avatar_height'] * $row['user_avatar_width']) : $row['user_avatar_width'];
+				$row['user_avatar_height'] = $avatar_height;
+			}
+
+			$last_avatar = phpbb_get_user_avatar($row);
+
+			// If no avatar then use "no avatar image" from the user's style
+			if (!$last_avatar)
+			{
+				$theme_path		= $this->path_helper->get_web_root_path() . 'styles/' . rawurlencode($this->user->style['style_path']) . '/theme';
+				$last_avatar	= '<img src="'  . $theme_path . '/images/no_avatar.gif" width="' . $this->config['announce_avatar_size'] . '" height="' . $this->config['announce_avatar_size'] . '" />';
+			}
+
+			return $last_avatar;
 		}
 	}
 }

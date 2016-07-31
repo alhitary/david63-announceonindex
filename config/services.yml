@@ -8,9 +8,10 @@ services:
             - '@dbal.conn'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '@service_container'
+            - '@content.visibility'
             - '@auth'
             - '@cache'
+            - '@path_helper'
             - '@language'
         tags:
             - { name: event.listener }
@@ -22,5 +23,5 @@ services:
             - '@request'
             - '@template'
             - '@user'
-            - '@service_container'
-            - '@language'			
+            - '@language'
+            - '@log'

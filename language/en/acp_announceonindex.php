@@ -42,6 +42,9 @@ $lang = array_merge($lang, array(
 	'ALLOW_GUESTS'					=> 'Allow guests to see announcements',
 	'ALLOW_GUESTS_EXPLAIN'			=> 'Allow guests to see the announcements.',
 
+	'ANNOUNCE_AVATAR'				=> 'Show last poster’s avatar',
+	'ANNOUNCE_AVATAR_SIZE'			=> 'Avatar size',
+	'ANNOUNCE_AVATAR_SIZE_EXPLAIN'	=> 'The size of the last poster’s avatar',
 	'ANNOUNCE_ON_INDEX_ENABLE'		=> 'Enable announcements',
 	'ANNOUNCE_ON_INDEX_EXPLAIN' 	=> 'Manage the announcement options.',
 	'ANNOUNCE_ON_INDEX_OPTIONS'		=> 'Announcement options',

@@ -19,6 +19,9 @@ class version_2_1_0 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
+			array('config.add', array('announce_avatar', 0)),
+			array('config.add', array('announce_avatar_size', 30)),
+
 			array('config.remove', array('version_globalonindex')),
 		);
 	}

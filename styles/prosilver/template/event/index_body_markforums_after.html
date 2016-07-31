@@ -1,5 +1,7 @@
 {% if S_ANNOUNCE_ENABLED %}
 	{% if S_ALLOW_GUESTS or S_USER_LOGGED_IN %}
+		{% INCLUDECSS '@david63_announceonindex/announceonindex.css' %}
+
 		{% if topicrow %}
 			<div class="forumbg">
 				<div class="inner">
@@ -18,12 +20,12 @@
 		{% endif %}
 					{% for topic in topicrow %}
 						{% if S_ALLOW_EVENTS %}
-							<!-- EVENT viewforum_body_topic_row_before -->
+							{% EVENT viewforum_body_topic_row_before %}
 						{% endif %}
 
 						<li class="row{% if topic.S_ROW_COUNT is even %} bg1{% else %} bg2{% endif %}">
 							{% if S_ALLOW_EVENTS %}
-								<!-- EVENT iewforum_body_topic_row_prepend -->
+								{% EVENT viewforum_body_topic_row_prepend %}
 							{% endif %}
 
 							<dl class="row-item {topic.TOPIC_IMG_STYLE}">
@@ -31,7 +33,7 @@
 								{% if topic.S_UNREAD_TOPIC and not S_IS_BOT %}<a href="{topic.U_NEWEST_POST}" class="row-item-link"></a>{% endif %}
 									<div class="list-inner">
 										{% if S_ALLOW_EVENTS %}
-											<!-- EVENT topiclist_row_prepend -->
+											{% EVENT topiclist_row_prepend %}
 										{% endif %}
 
 										{% if topic.S_UNREAD_TOPIC and not S_IS_BOT %}
@@ -48,7 +50,11 @@
 								</dt>
 											<dd class="posts">{topic.REPLIES} <dfn>{{ lang('REPLIES') }}</dfn></dd>
 											<dd class="views">{topic.VIEWS} <dfn>{{ lang('VIEWS') }}</dfn></dd>
-											<dd class="lastpost"><span><dfn>{{ lang('LAST_POST') }} </dfn>{{ lang('POST_BY_AUTHOR') }} {topic.TOPIC_LAST_AUTHOR}
+											<dd class="lastpost"><span><dfn>{{ lang('LAST_POST') }} </dfn>
+											{% if S_SHOW_LAST_AVATAR %}
+												<span class="announce-avatar">{topic.LAST_AUTHOR_AVATAR}</span>
+											{% endif %}
+											{{ lang('POST_BY_AUTHOR') }} {topic.TOPIC_LAST_AUTHOR}
 												<a href="{topic.U_LAST_POST}" title="{{ lang('GOTO_LAST_POST') }}">{LAST_POST_IMG}</a><br />{topic.LAST_POST_TIME}</span>
 											</dd>
 										{% endif %}

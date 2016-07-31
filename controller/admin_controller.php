@@ -29,11 +29,11 @@ class admin_controller implements admin_interface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var ContainerInterface */
-	protected $container;
-
 	/** @var phpbb\language\language */
 	protected $language;
+
+	/** @var \phpbb\log\log */
+	protected $log;
 
 	/** @var string Custom form action */
 	protected $u_action;
@@ -45,20 +45,20 @@ class admin_controller implements admin_interface
 	* @param \phpbb\request\request		$request	Request object
 	* @param \phpbb\template\template	$template	Template object
 	* @param \phpbb\user				$user		User object
-	* @param ContainerInterface			$container	Service container interface
 	* @param phpbb\language\language	$language
+	* @param \phpbb\log\log				$log
 	*
 	* @return \david63\announceonindex\controller\admin_controller
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, ContainerInterface $container, \phpbb\language\language $language)
+	public function __construct(\phpbb\config\config $config, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language, \phpbb\log\log $log)
 	{
 		$this->config		= $config;
 		$this->request		= $request;
 		$this->template		= $template;
 		$this->user			= $user;
-		$this->container	= $container;
 		$this->language		= $language;
+		$this->log			= $log;
 	}
 
 	/**
@@ -90,8 +90,7 @@ class admin_controller implements admin_interface
 			$this->set_options();
 
 			// Add option settings change action to the admin log
-			$phpbb_log = $this->container->get('log');
-			$phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'GLOBAL_ON_INDEX_LOG');
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'GLOBAL_ON_INDEX_LOG');
 
 			// Option settings have been updated and logged
 			// Confirm this to the user and provide link back to previous page
@@ -102,6 +101,8 @@ class admin_controller implements admin_interface
 		$this->template->assign_vars(array(
 			'ALLOW_EVENTS'				=> isset($this->config['announce_event']) ? $this->config['announce_event'] : '',
 			'ALLOW_GUESTS'				=> isset($this->config['announce_guest']) ? $this->config['announce_guest'] : '',
+			'ANNOUNCE_AVATAR'			=> isset($this->config['announce_avatar']) ? $this->config['announce_avatar'] : '',
+			'ANNOUNCE_AVATAR_SIZE'		=> isset($this->config['announce_avatar_size']) ? $this->config['announce_avatar_size'] : '',
 			'ANNOUNCE_ON_INDEX_ENABLED'	=> isset($this->config['announce_on_index_enable']) ? $this->config['announce_on_index_enable'] : '',
 			'ANNOUNCE_ON_INDEX_VERSION'	=> ext::ANNOUNCE_ON_INDEX_VERSION,
 
@@ -121,6 +122,8 @@ class admin_controller implements admin_interface
 	protected function set_options()
 	{
 		$this->config->set('announce_announcement_on_index', $this->request->variable('announce_announcement_on_index', 0));
+		$this->config->set('announce_avatar', $this->request->variable('announce_avatar', 0));
+		$this->config->set('announce_avatar_size', $this->request->variable('announce_avatar_size', 30));
 		$this->config->set('announce_event', $this->request->variable('announce_event', 0));
 		$this->config->set('announce_global_on_index', $this->request->variable('announce_global_on_index', 0));
 		$this->config->set('announce_guest', $this->request->variable('announce_guest', 0));

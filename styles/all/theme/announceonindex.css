@@ -1,0 +1,23 @@
+.announce-avatar img {
+	border: 1px solid #fff;
+	display: inline-block;
+	margin-right: 4px;
+	float: left;
+}
+
+.rtl .announce-avatar img {
+	margin-right: 0px;
+	margin-left: 4px;
+	float: right;
+}
+
+/* Need this fix for styles that have not been updated
+/* Forum list column styles */
+dl.row-item {
+	background-position: 10px 50%;		/* Position of folder icon */
+	background-repeat: no-repeat;
+}
+
+dl.row-item dt .list-inner {
+	padding-left: 45px;					/* Space for folder icon */
+}

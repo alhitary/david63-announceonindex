@@ -7,20 +7,21 @@
 	"keywords": ["phpbb", "extension", "global", "announcement", "index"],
 	"license": "GPL-2.0",
 	"authors": [{
-			"name": "David Wood",
-			"username": "david63",
-			"role": "Mod convertor"
-		},
-		{
-			"name": "Steve",
-			"username": "vectra-mods",
-			"email": "noreply@phpbbstylesandgraphics.com",
-			"homepage": "http://www.phpbbandbbcodes.com/index.php",
-			"role": "Mod developer"
-		}],
+		"name": "David Wood",
+		"role": "Mod convertor"
+	},
+	{
+		"name": "Steve",
+		"email": "noreply@phpbbstylesandgraphics.com",
+		"homepage": "http://www.phpbbandbbcodes.com/index.php",
+		"role": "Mod developer"
+	}],
 	"require": {
         "php": ">=5.3.3",
         "composer/installers": "~1.0"
+    },
+	"require-dev": {
+        "phpbb/epv": "dev-master"
     },
 	"extra": {
 		"display-name": "Announcements on index",

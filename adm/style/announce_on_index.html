@@ -36,6 +36,17 @@
 		</dl>
 
 		<dl>
+			<dt><label for="announce_avatar">{{ lang('ANNOUNCE_AVATAR') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" name="announce_avatar" value="1" id="announce_avatar"{% if ANNOUNCE_AVATAR %} checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="announce_avatar" value="0" {% if not ANNOUNCE_AVATAR %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+
+		<dl>
+			<dt><label for="announce_avatar_size">{{ lang('ANNOUNCE_AVATAR_SIZE') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ANNOUNCE_AVATAR_SIZE_EXPLAIN') }}</span></dt>
+			<dd><input  id="announce_avatar_size" type="number" maxlength="2" name="announce_avatar_size" value="{ANNOUNCE_AVATAR_SIZE}" min="1" max="99" /></dd>
+		</dl>
+
+		<dl>
 			<dt><label for="announce_event">{{ lang('ALLOW_EVENTS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ALLOW_EVENTS_EXPLAIN') }}</span></dt>
 			<dd><label><input type="radio" class="radio" name="announce_event" value="1" id="announce_event"{% if ALLOW_EVENTS %} checked="checked"{% endif %}/> {{ lang('YES') }}</label>
 				<label><input type="radio" class="radio" name="announce_event" value="0" {% if not ALLOW_EVENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
