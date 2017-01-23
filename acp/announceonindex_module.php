@@ -3,7 +3,7 @@
 *
 * @package Announcements on index
 * @copyright (c) 2015 david63
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+* @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
 
@@ -15,10 +15,10 @@ class announceonindex_module
 
 	function main($id, $mode)
 	{
-		global $phpbb_container, $user;
+		global $phpbb_container;
 
 		$this->tpl_name		= 'announce_on_index';
-		$this->page_title	= $user->lang('ANNOUNCE_ON_INDEX');
+		$this->page_title	= $phpbb_container->get('language')->lang('ANNOUNCE_ON_INDEX');
 
 		// Get an instance of the admin controller
 		$admin_controller = $phpbb_container->get('david63.announceonindex.admin.controller');

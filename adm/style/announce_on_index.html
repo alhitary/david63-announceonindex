@@ -1,13 +1,11 @@
 {% include 'overall_header.html' %}
-{% INCLUDECSS '@david63_announceonindex/version.css' %}
 
 <h1>{{ lang('ANNOUNCE_ON_INDEX') }}</h1>
 <p>{{ lang('ANNOUNCE_ON_INDEX_EXPLAIN') }}</p>
 
-<form id="announceonindex" method="post" action="{U_ACTION}">
+<img style="float: {{ S_CONTENT_FLOW_END }};" src="https://img.shields.io/badge/{{ lang('VERSION') }}-{{ ANNOUNCE_ON_INDEX_VERSION }}-orange.svg?style=plastic" /><br />
 
-<span class="version_name">{{ lang('VERSION') }}{{ lang('COLON') }}</span><span class="version">{ANNOUNCE_ON_INDEX_VERSION}</span>
-
+<form id="announceonindex" method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<legend>{{ lang('ANNOUNCE_ON_INDEX_OPTIONS') }}</legend>
 
@@ -43,7 +41,7 @@
 
 		<dl>
 			<dt><label for="announce_avatar_size">{{ lang('ANNOUNCE_AVATAR_SIZE') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ANNOUNCE_AVATAR_SIZE_EXPLAIN') }}</span></dt>
-			<dd><input  id="announce_avatar_size" type="number" maxlength="2" name="announce_avatar_size" value="{ANNOUNCE_AVATAR_SIZE}" min="1" max="99" /></dd>
+			<dd><input  id="announce_avatar_size" type="number" maxlength="2" name="announce_avatar_size" value="{{ ANNOUNCE_AVATAR_SIZE }}" min="1" max="99" /></dd>
 		</dl>
 
 		<dl>
@@ -59,7 +57,7 @@
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
 			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 		</p>
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
 

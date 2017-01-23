@@ -3,14 +3,20 @@
 *
 * @package Announcements on index
 * @copyright (c) 2015 david63
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+* @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
 
 namespace david63\announceonindex\controller;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use david63\announceonindex\ext;
+use \phpbb\config\config;
+use phpbb\request\request;
+use \phpbb\template\template;
+use \phpbb\user;
+use \phpbb\language\language;
+use \phpbb\log\log;
+use \david63\announceonindex\ext;
 
 /**
 * Admin controller
@@ -51,7 +57,7 @@ class admin_controller implements admin_interface
 	* @return \david63\announceonindex\controller\admin_controller
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\language\language $language, \phpbb\log\log $log)
+	public function __construct(config $config, request $request, template $template, user $user, language $language, log $log)
 	{
 		$this->config		= $config;
 		$this->request		= $request;

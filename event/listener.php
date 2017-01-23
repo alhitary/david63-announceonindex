@@ -3,7 +3,7 @@
 *
 * @package Announcements on index
 * @copyright (c) 2015 david63
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+* @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
 
@@ -13,6 +13,15 @@ namespace david63\announceonindex\event;
 * @ignore
 */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use \phpbb\config\config;
+use \phpbb\template\template;
+use \phpbb\user;
+use \phpbb\db\driver\driver_interface;
+use \phpbb\content_visibility;
+use \phpbb\auth\auth;
+use \phpbb\cache\service;
+use \phpbb\path_helper;
+use \phpbb\language\language;
 
 /**
 * Event listener
@@ -69,7 +78,7 @@ class listener implements EventSubscriberInterface
 	*
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $root_path, $php_ext, \phpbb\content_visibility $content_visibility, \phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\path_helper $path_helper, \phpbb\language\language $language)
+	public function __construct(config $config, template $template, user $user, driver_interface $db, $root_path, $php_ext, content_visibility $content_visibility, auth $auth, service $cache, path_helper $path_helper, language $language)
 	{
 		$this->config				= $config;
 		$this->template				= $template;

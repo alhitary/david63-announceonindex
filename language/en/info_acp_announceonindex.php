@@ -3,7 +3,7 @@
 *
 * @package Announcements on index
 * @copyright (c) 2015 david63
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
+* * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
 

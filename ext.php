@@ -3,13 +3,15 @@
 *
 * @package Announcements on index
 * @copyright (c) 2015 david63
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+* @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
 
 namespace david63\announceonindex;
 
-class ext extends \phpbb\extension\base
+use \phpbb\extension\base;
+
+class ext extends base
 {
 	const ANNOUNCE_ON_INDEX_VERSION	= '2.1.0';
 
