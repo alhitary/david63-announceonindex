@@ -10,13 +10,13 @@
 namespace david63\announceonindex\controller;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use \phpbb\config\config;
+use phpbb\config\config;
 use phpbb\request\request;
-use \phpbb\template\template;
-use \phpbb\user;
-use \phpbb\language\language;
-use \phpbb\log\log;
-use \david63\announceonindex\ext;
+use phpbb\template\template;
+use phpbb\user;
+use phpbb\language\language;
+use phpbb\log\log;
+use david63\announceonindex\ext;
 
 /**
 * Admin controller
