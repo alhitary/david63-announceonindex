@@ -13,15 +13,15 @@ namespace david63\announceonindex\event;
 * @ignore
 */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use phpbb\config\config;
-use phpbb\template\template;
-use phpbb\user;
-use phpbb\db\driver\driver_interface;
-use phpbb\content_visibility;
-use phpbb\auth\auth;
-use phpbb\cache\service;
-use phpbb\path_helper;
-use phpbb\language\language;
+use \phpbb\config\config;
+use \phpbb\template\template;
+use \phpbb\user;
+use \phpbb\db\driver\driver_interface;
+use \phpbb\content_visibility;
+use \phpbb\auth\auth;
+use \phpbb\cache\service;
+use \phpbb\path_helper;
+use \phpbb\language\language;
 
 /**
 * Event listener
@@ -58,7 +58,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
 
-	/** @var phpbb\language\language */
+	/** @var \phpbb\language\language */
 	protected $language;
 
 	/**
