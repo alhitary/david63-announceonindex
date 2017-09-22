@@ -204,12 +204,24 @@ class listener implements EventSubscriberInterface
             		$icons = $this->cache->obtain_icons();
 
 					$folder_img = $folder_alt = '';
-					$folder_img = ($unread_topic) ? 'announce_unread' : 'announce_read';
+					if ($row['topic_type'] == POST_GLOBAL && $this->config['announce_global_icon_on_index'])
+					{
+						$folder_img = ($unread_topic) ? 'global_a_unread' : 'global_a_read';
+					}
+					else
+					{
+						$folder_img = ($unread_topic) ? 'announce_unread' : 'announce_read';
+					}
 					$folder_alt	= ($unread_topic) ? 'UNREAD_POSTS' : (($row['topic_status'] == ITEM_LOCKED) ? 'TOPIC_LOCKED' : 'NO_UNREAD_POSTS');
 
 					if ($row['topic_status'] == ITEM_LOCKED)
 					{
 						$folder_img .= '_locked';
+					}
+
+					if (!empty($row['topic_posted']) && $row['topic_posted'])
+					{
+						$folder_img .= '_mine';
 					}
 
 					$this->template->assign_block_vars('topicrow', array(

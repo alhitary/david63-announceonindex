@@ -1,17 +1,20 @@
 {% if S_ANNOUNCE_ENABLED %}
 	{% if S_ALLOW_GUESTS or S_USER_LOGGED_IN %}
 		{% INCLUDECSS '@david63_announceonindex/announceonindex.css' %}
+		{% INCLUDECSS '@david63_announceonindex/announceonindex_icons.css' %}
 
 		{% if topicrow %}
-			<div class="forumbg">
+			<div class="forabg">
 				<div class="inner">
 					<ul class="topiclist">
 						<li class="header">
 							<dl class="row-item">
-							<dt><div class="list-inner">{{ lang('ANNOUNCEMENTS') }}</div></dt>
-						<dd class="posts">{{ lang('REPLIES') }}</dd>
-						<dd class="views">{{ lang('VIEWS') }}</dd>
-						<dd class="lastpost"><span>{{ lang('LAST_POST') }}</span></dd>
+								<dt>
+									<div class="list-inner">{{ lang('ANNOUNCEMENTS') }}</div>
+								</dt>
+								<dd class="posts">{{ lang('REPLIES') }}</dd>
+								<dd class="views">{{ lang('VIEWS') }}</dd>
+								<dd class="lastpost"><span>{{ lang('LAST_POST') }}</span></dd>
 							</dl>
 						</li>
 					</ul>
@@ -47,6 +50,14 @@
 											<div class="responsive-show" style="display: none;">
 												{{ lang('POST_BY_AUTHOR') }} {{ topic.TOPIC_AUTHOR_FULL }} &raquo; <a href="{{ topic.U_LAST_POST }}" title="{{ lang('GOTO_LAST_POST') }}">{{ topic.FIRST_POST_TIME }}</a>
 											</div>
+
+											<div class="topic-poster responsive-hide">
+												{% if topic.S_HAS_POLL %}<i class="icon fa-bar-chart fa-fw" aria-hidden="true"></i>{% endif %}
+												{% if topic.ATTACH_ICON_IMG %}<i class="icon fa-paperclip fa-fw" aria-hidden="true"></i>{% endif %}
+												{{ lang('POST_BY_AUTHOR') }} {{ topic.TOPIC_AUTHOR_FULL }} &raquo; {{ topic.FIRST_POST_TIME }}
+												{% if topic.S_POST_GLOBAL and FORUM_ID != topic.FORUM_ID %} &raquo; {{ lang('IN') }} <a href="{{ opic.U_VIEW_FORUM }}">{{ topic.FORUM_NAME }}</a>{% endif %}
+											</div>
+
 								</dt>
 											<dd class="posts">{{ topic.REPLIES }} <dfn>{{ lang('REPLIES') }}</dfn></dd>
 											<dd class="views">{{ topic.VIEWS }} <dfn>{{ lang('VIEWS') }}</dfn></dd>

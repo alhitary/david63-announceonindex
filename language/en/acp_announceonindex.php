@@ -50,9 +50,11 @@ $lang = array_merge($lang, array(
 	'ANNOUNCE_ON_INDEX_OPTIONS'		=> 'Announcement options',
 
 	'SHOW_ANNOUNCEMENTS'			=> 'Show announcements',
-	'SHOW_ANNOUNCEMENTS_EXPLAIN'	=> 'Display all announcements on the index page.',
+	'SHOW_ANNOUNCEMENTS_EXPLAIN'	=> 'Display announcements on the index page.',
+	'SHOW_GLOBAL_ICON'				=> 'Show global topic icon',
+	'SHOW_GLOBAL_ICON_EXPLAIN'		=> 'Display global topic icon when the announcement is a global announcement.<br /><strong>You may need to turn this off if there are no global topic icons for your style.</strong>',
 	'SHOW_GLOBALS'					=> 'Show global announcements',
-	'SHOW_GLOBALS_EXPLAIN'			=> 'Display all global announcements on the index page.',
+	'SHOW_GLOBALS_EXPLAIN'			=> 'Display global announcements on the index page.',
 
 	'VERSION'						=> 'Version',
 ));

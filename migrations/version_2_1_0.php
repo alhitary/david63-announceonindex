@@ -21,6 +21,7 @@ class version_2_1_0 extends \phpbb\db\migration\migration
 		return array(
 			array('config.add', array('announce_avatar', 0)),
 			array('config.add', array('announce_avatar_size', 30)),
+			array('config.add', array('announce_global_icon_on_index', 1)),
 
 			array('config.remove', array('version_globalonindex')),
 		);

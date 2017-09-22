@@ -113,6 +113,7 @@ class admin_controller implements admin_interface
 			'ANNOUNCE_ON_INDEX_VERSION'	=> ext::ANNOUNCE_ON_INDEX_VERSION,
 
 			'SHOW_ANNOUNCEMENTS'		=> isset($this->config['announce_announcement_on_index']) ? $this->config['announce_announcement_on_index'] : '',
+			'SHOW_GLOBAL_ICON'			=> isset($this->config['announce_global_icon_on_index']) ? $this->config['announce_global_icon_on_index'] : '',
 			'SHOW_GLOBALS'				=> isset($this->config['announce_global_on_index']) ? $this->config['announce_global_on_index'] : '',
 
 			'U_ACTION' => $this->u_action,
@@ -132,6 +133,7 @@ class admin_controller implements admin_interface
 		$this->config->set('announce_avatar_size', $this->request->variable('announce_avatar_size', 30));
 		$this->config->set('announce_event', $this->request->variable('announce_event', 0));
 		$this->config->set('announce_global_on_index', $this->request->variable('announce_global_on_index', 0));
+		$this->config->set('announce_global_icon_on_index', $this->request->variable('announce_global_icon_on_index', 1));
 		$this->config->set('announce_guest', $this->request->variable('announce_guest', 0));
 		$this->config->set('announce_on_index_enable', $this->request->variable('announce_on_index_enable', 0));
 	}
