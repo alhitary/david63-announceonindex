@@ -212,7 +212,7 @@ class listener implements EventSubscriberInterface
 					{
 						$folder_img = ($unread_topic) ? 'announce_unread' : 'announce_read';
 					}
-					
+
 					$folder_alt	= ($unread_topic) ? 'UNREAD_POSTS' : (($row['topic_status'] == ITEM_LOCKED) ? 'TOPIC_LOCKED' : 'NO_UNREAD_POSTS');
 
 					if ($row['topic_status'] == ITEM_LOCKED)
